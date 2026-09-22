@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Layout from '../components/Layout';
 import { Mail, Lock, LogIn, AlertCircle } from 'lucide-react';
 
-const DJANGO_URL = process.env.NEXT_PUBLIC_API_URL || 'https://backend-django-3dq5.onrender.com';
+const DJANGO_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
 
 export default function Login() {
   const router = useRouter();

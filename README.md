@@ -1,54 +1,54 @@
-# 🏗️ DataSoft Inventory — Prueba Técnica DataSoft Inventory 2026
+# DataSoft Inventory
 
 > **Aplicación fullstack** de gestión de inventarios empresariales construida con **Django + FastAPI + Next.js + PostgreSQL**, siguiendo principios de Arquitectura Limpia y microservicios.
 
 ---
 
-## 📑 Tabla de Contenidos
+## Tabla de Contenidos
 
-- [Arquitectura del Sistema](#-arquitectura-del-sistema)
-- [Stack Tecnológico](#-stack-tecnológico)
-- [Prerrequisitos](#-prerrequisitos)
-- [Instalación Rápida](#-instalación-rápida)
-- [Variables de Entorno](#-variables-de-entorno)
-- [Ejecución de Servidores de Desarrollo](#-ejecución-de-servidores-de-desarrollo)
-- [Endpoints de la API](#-endpoints-de-la-api)
-- [Funcionalidades Principales](#-funcionalidades-principales)
+- [Arquitectura del Sistema](#arquitectura-del-sistema)
+- [Stack Tecnológico](#stack-tecnológico)
+- [Prerrequisitos](#prerrequisitos)
+- [Instalación Rápida](#instalación-rápida)
+- [Variables de Entorno](#variables-de-entorno)
+- [Ejecución de Servidores de Desarrollo](#ejecución-de-servidores-de-desarrollo)
+- [Endpoints de la API](#endpoints-de-la-api)
+- [Funcionalidades Principales](#funcionalidades-principales)
 
 ---
 
-## 🏛️ Arquitectura del Sistema
+## Arquitectura del Sistema
 
 El proyecto sigue una **arquitectura de microservicios** con una capa de dominio desacoplada, inspirada en los principios de **Clean Architecture**:
 
 ```
-PruebaTecnicaLiteThinking/
+datasoft-inventory/
 │
-├── domain-package/          ← 🧠 Capa de Dominio (paquete Python/Poetry)
+├── domain-package/          ← Capa de Dominio (paquete Python/Poetry)
 │   ├── domain/
 │   │   ├── entities.py      # Entidades puras: Empresa, Producto, Usuario
 │   │   └── rules.py         # Reglas de negocio (validaciones de rol)
 │   └── pyproject.toml       # Configuración Poetry del paquete
 │
-├── backend-django/          ← ⚙️ Backend principal (API REST + Auth)
+├── backend-django/          ← Backend principal (API REST + Auth)
 │   ├── core/                # Configuración central de Django (settings, urls)
 │   ├── inventario/          # App Django: models, views, serializers, urls
 │   │   └── migrations/      # Migraciones de la base de datos
 │   └── manage.py            # CLI de administración de Django
 │
-├── microservice-fastapi/    ← 🚀 Microservicio auxiliar (FastAPI)
+├── microservice-fastapi/    ← Microservicio auxiliar (FastAPI)
 │   ├── main.py              # Reportes PDF, email, IA (Gemini), Blockchain
 │   └── requirements.txt     # Dependencias del microservicio
 │
-├── frontend-nextjs/         ← 🎨 Frontend (Next.js + React)
+├── frontend-nextjs/         ← Frontend (Next.js + React)
 │   └── src/
 │       ├── pages/           # Vistas: login, empresas, productos, inventario, copiloto
 │       ├── components/      # Componentes reutilizables: Layout, Navbar
 │       └── styles/          # Hojas de estilo CSS
 │
-├── docker-compose.yml       ← 🐳 Orquestación de la base de datos PostgreSQL + pgvector
-├── .env                     ← 🔐 Variables de entorno (NO se sube a Git)
-└── .env.example             ← 📋 Plantilla de variables de entorno
+├── docker-compose.yml       ← Orquestación de la base de datos PostgreSQL + pgvector
+├── .env                     ← Variables de entorno (NO se sube a Git)
+└── .env.example             ← Plantilla de variables de entorno
 ```
 
 ### Resumen por carpeta
@@ -62,7 +62,7 @@ PruebaTecnicaLiteThinking/
 
 ---
 
-## 🛠️ Stack Tecnológico
+## Stack Tecnológico
 
 | Capa | Tecnología |
 |---|---|
@@ -78,7 +78,7 @@ PruebaTecnicaLiteThinking/
 
 ---
 
-## 📋 Prerrequisitos
+## Prerrequisitos
 
 Asegúrate de tener instalado:
 
@@ -90,16 +90,27 @@ Asegúrate de tener instalado:
 
 ---
 
-## 🚀 Instalación Rápida
+## Instalación Rápida
 
 ### 1. Clonar el repositorio
 
 ```bash
 git clone <URL_DEL_REPOSITORIO>
-cd PruebaTecnicaLiteThinking
 ```
 
-### 2. Configurar variables de entorno
+### 2. Crear y activar el entorno virtual (si ocupa)
+```bash
+python3 -m venv .venv
+
+# Windows (PowerShell)
+.\.venv\Scripts\Activate.ps1
+# Windows (CMD)
+.\.venv\Scripts\activate.bat
+# Linux / macOS
+source .venv/bin/activate
+```
+
+### 3. Configurar variables de entorno
 
 Copia la plantilla y edita los valores si lo necesitas (los valores por defecto de prueba ya funcionan):
 
@@ -107,9 +118,9 @@ Copia la plantilla y edita los valores si lo necesitas (los valores por defecto 
 cp .env.example .env
 ```
 
-> 📌 La plantilla `.env.example` ya viene con los datos de configuración de la base de datos local. Deberás configurar tu `BREVO_API_KEY` y `GEMINI_API_KEY`.
+> La plantilla `.env.example` ya viene con los datos de configuración de la base de datos local. Deberás configurar tu `BREVO_API_KEY` y `GEMINI_API_KEY`.
 
-### 3. Levantar la base de datos con Docker
+### 4. Levantar la base de datos con Docker
 
 ```bash
 docker-compose up -d
@@ -122,74 +133,72 @@ Para verificar que está corriendo:
 docker ps
 ```
 
-### 4. Configurar el paquete de dominio (Poetry)
+> La base de datos usa el volumen `postgres_data`, por lo que los datos y usuarios se conservan aunque se reinicie el contenedor. Si se elimina el volumen y se empieza desde cero, el backend vuelve a ejecutar las migraciones y crea/actualiza automáticamente los usuarios de prueba al iniciar.
+
+### 5. Configurar el paquete de dominio (Poetry)
 
 ```bash
 cd domain-package
 poetry install
-cd ..
 ```
 
-### 5. Configurar el backend Django
+### 6. Configurar el backend Django
 
 ```bash
 cd backend-django
 
-# Crear y activar el entorno virtual
-python -m venv .venv
-
-# Windows (PowerShell)
-.\.venv\Scripts\Activate.ps1
-# Windows (CMD)
-.\.venv\Scripts\activate.bat
-# Linux / macOS
-source .venv/bin/activate
-
 # Instalar dependencias
-pip install django djangorestframework django-cors-headers django-environ psycopg2-binary pydantic[email]
+pip install -r requirements.in
+# Opcional: instalar pip-tools para autogenerar requirements.txt con las dependencias y sus versiones
+pip-compile requirements.in
 
 # Aplicar migraciones (la app "inventario" usa un modelo de usuario personalizado)
-python manage.py makemigrations inventario
-python manage.py migrate
+python3 manage.py makemigrations inventario
+python3 manage.py makemigrations
+python3 manage.py migrate
 
 # (Opcional) Crear un superusuario administrador
-python manage.py createsuperuser
-
-cd ..
+python3 manage.py createsuperuser
 ```
 
-> ⚠️ **Nota importante sobre migraciones:** Al tener un `AUTH_USER_MODEL` personalizado (`inventario.UsuarioModel`), es necesario ejecutar primero `makemigrations inventario` para generar la migración inicial del modelo de usuario antes del `migrate` general.
+En el despliegue mediante `backend-django/Dockerfile`, estos pasos se ejecutan automáticamente al iniciar el contenedor, junto con `init_db.py`. Los usuarios de prueba disponibles son:
 
-### 6. Configurar el microservicio FastAPI
+| Correo | Contraseña | Rol |
+|---|---|---|
+| `admin@litetest.com` | `password123` | Administrador |
+| `externo@litetest.com` | `password123` | Externo |
+
+Para reproducir el arranque completo desde cero en local:
+
+```bash
+python manage.py migrate
+python init_db.py
+python manage.py runserver
+```
+
+En producción, al desplegar una nueva imagen con este `Dockerfile`, `migrate` e `init_db.py` también se ejecutan antes de iniciar Gunicorn.
+
+> **Nota importante sobre migraciones:** Al tener un `AUTH_USER_MODEL` personalizado (`inventario.UsuarioModel`), es necesario ejecutar primero `makemigrations inventario` para generar la migración inicial del modelo de usuario antes del `migrate` general.
+
+### 7. Configurar el microservicio FastAPI
 
 ```bash
 cd microservice-fastapi
 
-# Crear y activar el entorno virtual
-python -m venv .venv
-
-# Windows (PowerShell)
-.\.venv\Scripts\Activate.ps1
-# Linux / macOS
-source .venv/bin/activate
-
 # Instalar dependencias
-pip install -r requirements.txt
-
-cd ..
+pip install -r requirements.in
 ```
 
-### 7. Configurar el frontend Next.js
+### 8. Configurar el frontend Next.js
 
 ```bash
 cd frontend-nextjs
 npm install
-cd ..
 ```
 
 ---
 
-## 🔐 Variables de Entorno
+## Variables de Entorno
 
 El proyecto utiliza un único archivo `.env` en la **raíz del proyecto** que es leído por los tres servicios (Django, FastAPI, y Docker Compose).
 
@@ -204,7 +213,7 @@ Consulta el archivo [`.env.example`](.env.example) como plantilla:
 | `BREVO_API_KEY` | API Key de Brevo (para envío de correos) | `tu_api_key_de_brevo` |
 
 
-### 🌐 Variables de Entorno en Producción (Despliegue)
+### Variables de Entorno en Producción (Despliegue)
 
 Cuando el proyecto se encuentra desplegado en producción, las variables se configuran en las plataformas de hosting en lugar de usar el archivo `.env` local:
 
@@ -215,12 +224,12 @@ Cuando el proyecto se encuentra desplegado en producción, las variables se conf
   * `DJANGO_SECRET_KEY`: Llave secreta para Django.
 
 * **En Vercel** (Frontend Next.js):
-  * `NEXT_PUBLIC_API_URL`: URL de la API del backend en Render (ej. `https://backend-django-3dq5.onrender.com`).
-  * `NEXT_PUBLIC_FASTAPI_URL`: URL de la API del microservicio en Render (ej. `https://microservice-fastapi.onrender.com`).
+  * `NEXT_PUBLIC_API_URL`: URL de la API del backend en Render (ej. `https://...onrender.com`).
+  * `NEXT_PUBLIC_FASTAPI_URL`: URL de la API del microservicio en Render (ej. `https://...onrender.com`).
 
 ---
 
-## ▶️ Ejecución de Servidores de Desarrollo
+## Ejecución de Servidores de Desarrollo
 
 Necesitas **4 terminales** abiertas simultáneamente:
 
@@ -234,8 +243,7 @@ docker-compose up -d
 
 ```bash
 cd backend-django
-.\.venv\Scripts\Activate.ps1       # Activar entorno virtual
-python manage.py runserver
+python3 manage.py runserver
 ```
 
 > Disponible en: **http://127.0.0.1:8000**
@@ -253,7 +261,6 @@ npm run dev
 
 ```bash
 cd microservice-fastapi
-.\.venv\Scripts\Activate.ps1       # Activar entorno virtual
 uvicorn main:app --port 8001
 ```
 
@@ -262,7 +269,7 @@ uvicorn main:app --port 8001
 
 ---
 
-## 📡 Endpoints de la API
+## Endpoints de la API
 
 ### Backend Django (`http://127.0.0.1:8000/api/`)
 
@@ -289,13 +296,13 @@ uvicorn main:app --port 8001
 
 ---
 
-## 🔍 Validación Automática
+## Validación Automática
 
 Se incluye un script de prueba `test_api.py` en la raíz del proyecto. Puedes ejecutarlo para validar el flujo completo:
 
 ```bash
 cd microservice-fastapi
-python test_api.py
+python3 test_api.py
 ```
 
 El script valida:
@@ -307,7 +314,7 @@ El script valida:
 6. Sugerencia de IA
 7. Consulta del libro de auditoría
 
-## ✨ Funcionalidades Principales
+## Funcionalidades Principales
 
 - **CRUD de Empresas y Productos** con control de acceso por roles.
 - **Autenticación con tokens** y contraseñas encriptadas.
@@ -321,6 +328,6 @@ El script valida:
 
 ---
 
-## 📄 Licencia
+## Licencia
 
-Proyecto desarrollado como prueba técnica para **DataSoft Inventory — 2026**.
+Proyecto desarrollado para **DataSoft Inventory — 2026**.

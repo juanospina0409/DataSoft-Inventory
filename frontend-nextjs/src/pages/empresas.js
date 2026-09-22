@@ -3,8 +3,8 @@ import Head from 'next/head';
 import Layout from '../components/Layout';
 import { Building2, Plus, Edit2, Trash2, X, AlertCircle } from 'lucide-react';
 
-const DJANGO_URL = process.env.NEXT_PUBLIC_API_URL || 'https://backend-django-3dq5.onrender.com';
-const FASTAPI_URL = process.env.NEXT_PUBLIC_FASTAPI_URL || 'https://microservice-fastapi.onrender.com';
+const DJANGO_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
+const FASTAPI_URL = process.env.NEXT_PUBLIC_FASTAPI_URL || 'http://127.0.0.1:8001';
 
 export default function Empresas() {
   const [empresas, setEmpresas] = useState([]);

@@ -1,7 +1,7 @@
 [project]
 name = "domain"
 version = "0.1.0"
-description = "Prueba tecnica para Desarrollador Python, Django y React."
+description = "Proyecto desarrollado DataSoft Inventory — 2026"
 authors = [
     {name = "Sebastian Ospina"}
 ]

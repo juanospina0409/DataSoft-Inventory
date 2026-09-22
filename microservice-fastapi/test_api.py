@@ -1,18 +1,21 @@
 import requests
 import json
 import sys
+import os
 
 # para uso local
 # BACKEND_URL = "http://localhost:8000"
 # FASTAPI_URL = "http://localhost:8001"
 
 # para uso en render.com:
-BACKEND_URL = "https://backend-django-3dq5.onrender.com"
-FASTAPI_URL = "https://microservice-fastapi.onrender.com"
+BACKEND_URL = os.getenv("NEXT_PUBLIC_API_URL", "http://localhost:8000")
+FASTAPI_URL = os.getenv("NEXT_PUBLIC_FASTAPI_URL", "http://localhost:8001")
 
 def test_flow():
     print("=== INICIANDO VALIDACION AUTOMATICA DE APIs ===")
-    
+    print("BACKEND_URL:", BACKEND_URL)
+    print("FASTAPI_URL:", FASTAPI_URL)
+
     # 1. Probar Login de Administrador
     print("\n1. Probando Login de Administrador...")
     admin_payload = {

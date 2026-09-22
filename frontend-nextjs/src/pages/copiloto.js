@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Layout from '../components/Layout';
 import { Cpu, ShieldCheck, ShieldAlert, Sparkles, RefreshCw, Layers } from 'lucide-react';
 
-const FASTAPI_URL = process.env.NEXT_PUBLIC_FASTAPI_URL || 'https://microservice-fastapi.onrender.com';
+const FASTAPI_URL = process.env.NEXT_PUBLIC_FASTAPI_URL;
 
 export default function Copiloto() {
   const [ledger, setLedger] = useState({ chain: [], is_valid: true, length: 0 });

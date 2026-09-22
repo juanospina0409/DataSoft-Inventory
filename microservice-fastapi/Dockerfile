@@ -10,8 +10,8 @@ COPY domain-package /app/domain-package
 RUN pip install --no-cache-dir -e /app/domain-package
 
 # Copiar requerimientos de FastAPI e instalarlos
-COPY microservice-fastapi/requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+COPY microservice-fastapi/requirements.in /app/requirements.in
+RUN pip install --no-cache-dir -r requirements.in
 
 # Copiar todo el código fuente de FastAPI
 COPY microservice-fastapi /app/

@@ -96,8 +96,8 @@ def registrar_usuario(request):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def login_usuario(request):
-    correo = request.data.get('correo')
-    password = request.data.get('password')
+    correo = request.data.get('correo').lower().strip()
+    password = request.data.get('password', '')
     
     if not correo or not password:
         return Response(
