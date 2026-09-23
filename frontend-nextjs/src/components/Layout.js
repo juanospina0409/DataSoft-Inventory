@@ -9,18 +9,18 @@ export default function Layout({ children }) {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    const isLoginPage = router.pathname === '/login';
+    const isPublicPage = ['/login', '/register'].includes(router.pathname);
 
     if (!token) {
       setIsAuthenticated(false);
-      if (!isLoginPage) {
+      if (!isPublicPage) {
         router.push('/login');
       } else {
         setLoading(false);
       }
     } else {
       setIsAuthenticated(true);
-      if (isLoginPage) {
+      if (isPublicPage) {
         router.push('/');
       } else {
         setLoading(false);
@@ -57,12 +57,12 @@ export default function Layout({ children }) {
     );
   }
 
-  const isLoginPage = router.pathname === '/login';
+  const isPublicPage = ['/login', '/register'].includes(router.pathname);
 
   return (
     <div className="app-container">
-      {!isLoginPage && <Navbar />}
-      <main className={isLoginPage ? '' : 'main-content'}>
+      {!isPublicPage && <Navbar />}
+      <main className={isPublicPage ? '' : 'main-content'}>
         {children}
       </main>
     </div>

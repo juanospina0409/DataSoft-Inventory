@@ -123,7 +123,7 @@ cp .env.example .env
 ### 4. Levantar la base de datos con Docker
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 Esto levanta un contenedor **PostgreSQL con pgvector** llamado `lite_postgres` en el puerto `5432`.  
@@ -140,6 +140,7 @@ docker ps
 ```bash
 cd domain-package
 poetry install
+cd ..
 ```
 
 ### 6. Configurar el backend Django
@@ -148,20 +149,27 @@ poetry install
 cd backend-django
 
 # Instalar dependencias
-pip install -r requirements.in
-# Opcional: instalar pip-tools para autogenerar requirements.txt con las dependencias y sus versiones
-pip-compile requirements.in
+pip install -r requirements.in --break-system-packages
 
 # Aplicar migraciones (la app "inventario" usa un modelo de usuario personalizado)
 python3 manage.py makemigrations inventario
 python3 manage.py makemigrations
 python3 manage.py migrate
+cd ..
+```
 
-# (Opcional) Crear un superusuario administrador
+> **Nota importante sobre migraciones:** Al tener un `AUTH_USER_MODEL` personalizado (`inventario.UsuarioModel`), es necesario ejecutar primero `makemigrations inventario` para generar la migración inicial del modelo de usuario antes del `migrate` general.
+
+```bash
+# Opcional: instalar pip-tools para autogenerar requirements.txt con las dependencias y sus versiones
+pip-compile requirements.in
+```
+```bash
+# Opcional: Crear un superusuario administrador
 python3 manage.py createsuperuser
 ```
 
-En el despliegue mediante `backend-django/Dockerfile`, estos pasos se ejecutan automáticamente al iniciar el contenedor, junto con `init_db.py`. Los usuarios de prueba disponibles son:
+En el despliegue mediante `backend-django/Dockerfile`, estos pasos se ejecutan automáticamente al iniciar el contenedor, junto con `init_db.py`. Se pueden registrar nuevos usuarios, no obstante, los usuarios de prueba son:
 
 | Correo | Contraseña | Rol |
 |---|---|---|
@@ -171,14 +179,10 @@ En el despliegue mediante `backend-django/Dockerfile`, estos pasos se ejecutan a
 Para reproducir el arranque completo desde cero en local:
 
 ```bash
-python manage.py migrate
-python init_db.py
-python manage.py runserver
+python3 init_db.py
 ```
 
 En producción, al desplegar una nueva imagen con este `Dockerfile`, `migrate` e `init_db.py` también se ejecutan antes de iniciar Gunicorn.
-
-> **Nota importante sobre migraciones:** Al tener un `AUTH_USER_MODEL` personalizado (`inventario.UsuarioModel`), es necesario ejecutar primero `makemigrations inventario` para generar la migración inicial del modelo de usuario antes del `migrate` general.
 
 ### 7. Configurar el microservicio FastAPI
 
@@ -186,7 +190,8 @@ En producción, al desplegar una nueva imagen con este `Dockerfile`, `migrate` e
 cd microservice-fastapi
 
 # Instalar dependencias
-pip install -r requirements.in
+pip install -r requirements.in --break-system-packages
+cd ..
 ```
 
 ### 8. Configurar el frontend Next.js
@@ -194,6 +199,7 @@ pip install -r requirements.in
 ```bash
 cd frontend-nextjs
 npm install
+cd ..
 ```
 
 ---
@@ -209,6 +215,7 @@ Consulta el archivo [`.env.example`](.env.example) como plantilla:
 | `DB_USER` | Usuario de PostgreSQL | `lite_user` |
 | `DB_PASSWORD` | Contraseña de PostgreSQL | `lite_password` |
 | `DB_NAME` | Nombre de la base de datos | `lite_db` |
+| `DB_PORT` | Puerto de la base de datos (por defecto) | `5432` |
 | `GEMINI_API_KEY` | API Key de Google Gemini (para IA) | `tu_api_key_aqui` |
 | `BREVO_API_KEY` | API Key de Brevo (para envío de correos) | `tu_api_key_de_brevo` |
 
@@ -236,7 +243,7 @@ Necesitas **4 terminales** abiertas simultáneamente:
 ### Terminal 1 — Base de datos (Docker)
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ### Terminal 2 — Backend Django (puerto 8000)

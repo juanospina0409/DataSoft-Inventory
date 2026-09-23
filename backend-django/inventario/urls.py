@@ -9,7 +9,7 @@ router.register(r'productos', ProductoViewSet, basename='producto')
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('auth/registrar/', registrar_usuario, name='registrar_usuario'),
+    path('auth/register/', registrar_usuario, name='registrar_usuario'),
     path('auth/login/', login_usuario, name='login_usuario'),
     path('auth/me/', obtener_perfil, name='obtener_perfil'),
     path('api/health/', health_check, name='health_check'),

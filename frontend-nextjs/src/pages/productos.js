@@ -3,8 +3,8 @@ import Head from 'next/head';
 import Layout from '../components/Layout';
 import { Box, Plus, Edit2, Trash2, X, AlertCircle, Sparkles, Wand2 } from 'lucide-react';
 
-const DJANGO_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
-const FASTAPI_URL = process.env.NEXT_PUBLIC_FASTAPI_URL || 'http://127.0.0.1:8001';
+const DJANGO_URL = process.env.NEXT_PUBLIC_API_URL;
+const FASTAPI_URL = process.env.NEXT_PUBLIC_FASTAPI_URL;
 
 export default function Productos() {
   const [productos, setProductos] = useState([]);

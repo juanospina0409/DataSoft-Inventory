@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Layout from '../components/Layout';
 import { Building2, Box, ArrowRight, ClipboardList, ShieldAlert, Cpu } from 'lucide-react';
 
-const DJANGO_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
+const DJANGO_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Home() {
   const [stats, setStats] = useState({ empresas: 0, productos: 0 });

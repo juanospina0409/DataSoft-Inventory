@@ -1,15 +1,18 @@
 import requests
+from dotenv import load_dotenv
 import json
 import sys
 import os
+
+load_dotenv() 
 
 # para uso local
 # BACKEND_URL = "http://localhost:8000"
 # FASTAPI_URL = "http://localhost:8001"
 
 # para uso en render.com:
-BACKEND_URL = os.getenv("NEXT_PUBLIC_API_URL", "http://localhost:8000")
-FASTAPI_URL = os.getenv("NEXT_PUBLIC_FASTAPI_URL", "http://localhost:8001")
+BACKEND_URL = os.getenv("NEXT_PUBLIC_API_URL")
+FASTAPI_URL = os.getenv("NEXT_PUBLIC_FASTAPI_URL")
 
 def test_flow():
     print("=== INICIANDO VALIDACION AUTOMATICA DE APIs ===")

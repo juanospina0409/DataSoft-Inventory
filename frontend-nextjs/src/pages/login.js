@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import Head from 'next/head';
 import Layout from '../components/Layout';
-import { Mail, Lock, LogIn, AlertCircle } from 'lucide-react';
+import { Mail, Lock, LogIn, AlertCircle, UserPlus } from 'lucide-react';
 
-const DJANGO_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
+const DJANGO_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Login() {
   const router = useRouter();
@@ -131,6 +132,24 @@ export default function Login() {
               )}
             </button>
           </form>
+
+          <p className="card-subtitle" style={{ marginTop: '1.5rem', marginBottom: 0, color: 'var(--text-main)', display: 'flex', justifyContent: 'space-evenly' }}>
+            ¿No tienes una cuenta? <button
+            type="button"
+            className="btn btn-outline btn-sm"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.3rem',
+              padding: '0.2rem 0.6rem',
+              borderColor: 'var(--primary)',
+              color: 'var(--text-main)',
+              fontSize: '0.75rem',
+              background: 'rgba(99, 102, 241, 0.1)'
+            }}>
+            <UserPlus size={12} style={{ color: 'var(--primary)' }} />
+            <span><Link href="/register" style={{ color: 'var(--text-main)', textDecoration: 'none' }}>Crear cuenta</Link></span></button>
+          </p>
         </div>
       </div>
     </Layout>
